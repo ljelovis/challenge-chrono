@@ -3,6 +3,7 @@ import Button from "./Button.jsx";
 
 function Counter({ incr }) {
   const [counter, setCounter] = useState(0);
+  const [cycle, setCycle] = useState(0);
   const [isCounting, setIsCounting] = useState(false);
 
   useEffect(() => {
@@ -12,12 +13,15 @@ function Counter({ incr }) {
         setCounter((prevCounter) => {
           if (prevCounter >= 20) {
             setIsCounting(false);
-            return prevCounter;
+            setCycle((prevCycle) => {
+              return prevCycle + 0.5;
+            });
+            return 0;
           } else {
             return prevCounter + incr;
           }
         });
-      }, 1000);
+      }, 500);
     }
     return () => clearInterval(intervalCounter);
   }, [isCounting]);
@@ -36,6 +40,8 @@ function Counter({ incr }) {
         <p>
           Counter +{incr} : <br />
           {counter}
+          <br />
+          Cycle : {cycle}
         </p>
         <Button fn={start} text={"Start"} disabled={isCounting} />
         <Button fn={stop} text={"Stop"} disabled={!isCounting} />
